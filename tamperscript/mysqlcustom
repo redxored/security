@@ -1,0 +1,50 @@
+#!/usr/bin/python
+import re
+
+from lib.core.enums import PRIORITY
+import os
+import re
+
+from lib.core.data import kb
+from lib.core.common import singleTimeWarnMessage
+from lib.core.enums import DBMS
+from lib.core.common import randomRange
+
+__priority__ = PRIORITY.LOW
+
+def tamper(payload, **kwargs):
+    retVal = payload
+
+    if payload:
+        retVal = re.sub(r"(?i)(information_schema)\.", "\g<1>/**/.", payload)
+
+
+
+
+
+
+    if payload:
+        retVal = re.sub(r"\s*=\s*", " LIKE ", retVal)
+
+    if payload:
+        for match in re.finditer(r"[A-Za-z_]+", retVal):
+            word = match.group()
+
+            if word.upper() in kb.keywords:                    _ = ""
+
+                    for i in xrange(len(word)):
+                        _ += word[i].upper() if randomRange(0, 1) else word[i].lower()
+
+                    if len(_) > 1 and _ not in (_.lower(), _.upper()):
+                        break
+    if payload:
+        match = re.search(r"(?i)(\b(AND|OR)\b\s+)(?!.*\b(AND|OR)\b)([^>]+?)\s*>\s*([^>#-]+)", payload)
+
+        if match:
+            _ = "%sGREATEST(%s,%s+1)=%s" % (match.group(1), match.group(4), match.group(5), match.group(4))
+            retVal = retVal.replace(match.group(0), _)
+
+
+    return retVal
+                                                     
+                while True:
